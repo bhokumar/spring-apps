@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+	<!-- <bean id="triangle" class="org.school.spring.bean.Triangle"> <property 
+		name="type" value="Equilateral"></property> <constructor-arg value="Equilateral"></constructor-arg> 
+		<constructor-arg type="java.lang.String" value="100"></constructor-arg> </bean> -->
+
+	<!--################based on indexing############ -->
+
+
+	<!-- <bean id="pointB" class="org.school.spring.bean.Point"> <property name="x" 
+		value="0"></property> <property name="y" value="100"></property> </bean> 
+		<bean id="pointC" class="org.school.spring.bean.Point"> <property name="x" 
+		value="100"></property> <property name="y" value="100"></property> </bean> 
+		<bean id="triangle" class="org.school.spring.bean.Triangle" name="tt"> <property 
+		name="pointA"> <bean class="org.school.spring.bean.Point"> <property name="x" 
+		value="0"></property> <property name="y" value="0"></property> </bean> </property> 
+		<property name="pointB" > <idref bean="pointB"/> </property> <property name="pointC" 
+		ref="pointC"></property> </bean> <alias name="triangle" alias="triangle-alias"/> -->
+	<!-- Good practice is to use id instead alias or name -->
+
+
+
+	<!-- ############################################## Collection Injection 
+		####################################### -->
+
+	<bean id="pointB" class="org.school.spring.bean.Point">
+		<property name="x" value="0"></property>
+		<property name="y" value="100"></property>
+	</bean>
+
+	<bean id="center" class="org.school.spring.bean.Point">
+		<property name="x" value="100"></property>
+		<property name="y" value="100"></property>
+	</bean>
+
+	<bean id="pointC" class="org.school.spring.bean.Point">
+		<property name="x" value="100"></property>
+		<property name="y" value="100"></property>
+	</bean>
+
+	<bean id="pointA" class="org.school.spring.bean.Point">
+		<property name="x" value="0"></property>
+		<property name="y" value="0"></property>
+	</bean>
+
+	<!-- <bean id="triangle" class="org.school.spring.bean.Triangle" autowire="byName"> 
+		<property name="points"> <list> <ref bean="pointA" /> <ref bean="pointB" 
+		/> <ref bean="pointC" /> </list> </property> </bean> -->
+
+	<bean id="parenttiangle" class="org.school.spring.bean.Triangle">
+		<property name="pointA">
+			<ref bean="pointA" />
+		</property>
+	</bean>
+
+	<bean id="triangle1" class="org.school.spring.bean.Triangle"
+		parent="parenttiangle" init-method="init" destroy-method="destroy">
+		<property name="pointB">
+			<ref bean="pointB" />
+		</property>
+		<property name="pointC">
+			<ref bean="pointC" />
+		</property>
+	</bean>
+
+	<bean id="triangle2" class="org.school.spring.bean.Triangle"
+		parent="parenttiangle">
+		<property name="pointB">
+			<ref bean="pointB" />
+		</property>
+	</bean>
+
+	<!-- <bean id="circle" class="org.school.spring.bean.Circle"> <property 
+		name="radious" value="100"> </property> </bean> -->
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+		<list>
+		<value>myMessaging</value>
+		</list>
+		</property>
+	</bean>
+
+	<!-- If you want to merge the content of a collection with parent then it 
+		would be done by specifying merge attribute inside the collection tag(merge="true") -->
+	<context:component-scan base-package="org.school.spring.bean"></context:component-scan>
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+</beans>
