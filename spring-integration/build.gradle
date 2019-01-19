@@ -1,0 +1,48 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-artemis')
+	compile('org.springframework.boot:spring-boot-starter-batch')
+	/*compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')*/
+	compile('org.springframework.boot:spring-boot-starter-integration')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.batch:spring-batch-test')
+	compile group: 'org.springframework.integration', name: 'spring-integration-ftp', version: '4.3.12.RELEASE'
+	compile group: 'org.springframework.integration', name: 'spring-integration-file', version: '4.3.12.RELEASE'
+	/*compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'*/
+	compile group: 'org.springframework', name: 'spring-web', version: '4.3.12.RELEASE'
+	/*compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.3.RELEASE'
+	compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.2.3.RELEASE'*/
+	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+	runtime group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
+	compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jersey'
+
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	runtime('org.postgresql:postgresql')
+}

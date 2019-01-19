@@ -1,0 +1,2 @@
+insert into user_details (user_id, active, email_id, last_name, name, password) values(1001,1,'bhoopendra.akgec@gmail.com','Kumar','bhoopendra','bhoopendra');
+insert into role_details (user_id, role_name, role_id) values(1001,'ADMIN',101);
