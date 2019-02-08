@@ -28,8 +28,16 @@ public class VendorController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping("/api/v1/vendors")
     public Mono<Void> createVendor(@RequestBody Publisher<Vendor> vendor) {
         return vendorRepository.saveAll(vendor).then();
+    }
+
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/api/v1/vendors/{id}")
+    public Mono<Vendor> updateVendor(@PathVariable String id,@RequestBody Vendor vendor) {
+        vendor.setId(id);
+        return vendorRepository.save(vendor);
     }
 }
