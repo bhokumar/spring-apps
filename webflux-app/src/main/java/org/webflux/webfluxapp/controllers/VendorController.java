@@ -1,8 +1,8 @@
 package org.webflux.webfluxapp.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.reactivestreams.Publisher;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.webflux.webfluxapp.domain.Vendor;
 import org.webflux.webfluxapp.repositories.VendorRepository;
 import reactor.core.publisher.Flux;
@@ -25,5 +25,11 @@ public class VendorController {
     @GetMapping("/api/v1/vendors/{id}")
     public Mono<Vendor> getById(@PathVariable String id) {
         return  vendorRepository.findById(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Mono<Void> createVendor(@RequestBody Publisher<Vendor> vendor) {
+        return vendorRepository.saveAll(vendor).then();
     }
 }

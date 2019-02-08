@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
+import org.reactivestreams.Publisher;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.webflux.webfluxapp.controllers.VendorController;
 import org.webflux.webfluxapp.domain.Vendor;
@@ -35,5 +36,12 @@ public class VendorControllerTest {
     public void findById() {
         BDDMockito.given(vendorRepository.findById("someId")).willReturn(Mono.just(new Vendor("someId", "firstName", "lastName")));
         webTestClient.get().uri("/api/v1/vendors/someId").exchange().expectBody(Vendor.class);
+    }
+
+    @Test
+    public void createTest() {
+        BDDMockito.given(vendorRepository.saveAll(Mockito.any(Publisher.class))).willReturn(Flux.just(new Vendor("someId", "firstName", "lastName")));
+        Mono<Vendor> vendor = Mono.just(new Vendor("someId", "firstName", "lastName"));
+        webTestClient.post().uri("/api/v1/vendors").body(vendor, Vendor.class).exchange().expectStatus().isCreated();
     }
 }

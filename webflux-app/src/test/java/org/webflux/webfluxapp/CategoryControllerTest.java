@@ -43,4 +43,12 @@ public class CategoryControllerTest {
         Mono<Category> category = Mono.just(new Category("5601","Animals"));
         webTestClient.post().uri("/api/v1/categories").body(category, Category.class).exchange().expectStatus().isCreated();
     }
+
+    @Test
+    public void testUpdateCategory() {
+        BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(Mono.just(new Category("002", "Description1")));
+        Mono<Category> category = Mono.just(new Category("5601","Animals"));
+        webTestClient.put().uri("/api/v1/categories/5601").body(category, Category.class).exchange().expectStatus().isOk();
+    }
+
 }
