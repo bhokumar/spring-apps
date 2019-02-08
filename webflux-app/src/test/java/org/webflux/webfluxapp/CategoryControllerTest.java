@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 import org.reactivestreams.Publisher;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.webflux.webfluxapp.controllers.CategoryController;
@@ -49,6 +48,25 @@ public class CategoryControllerTest {
         BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(Mono.just(new Category("002", "Description1")));
         Mono<Category> category = Mono.just(new Category("5601","Animals"));
         webTestClient.put().uri("/api/v1/categories/5601").body(category, Category.class).exchange().expectStatus().isOk();
+    }
+
+    @Test
+    public void testPatchCategory() {
+        BDDMockito.given(categoryRepository.findById(Mockito.anyString())).willReturn(Mono.just(new Category("002", "Description1")));
+        BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(Mono.just(new Category("002", "Description1")));
+        Mono<Category> category = Mono.just(new Category("5601","Animals"));
+        webTestClient.patch().uri("/api/v1/categories/5601").body(category, Category.class).exchange().expectStatus().isOk();
+        Mockito.verify(categoryRepository).save(Mockito.any());
+    }
+
+    @Test
+    public void testPatchCategoryNoChanges() {
+        BDDMockito.given(categoryRepository.findById(Mockito.anyString())).willReturn(Mono.just(new Category("002", "Description1")));
+        Category toSaveCategory = new Category("002", "Description1");
+        BDDMockito.given(categoryRepository.save(Mockito.any(Category.class))).willReturn(Mono.just(toSaveCategory));
+        Mono<Category> category = Mono.just(toSaveCategory);
+        webTestClient.patch().uri("/api/v1/categories/002").body(category, Category.class).exchange().expectStatus().isOk();
+        Mockito.verify(categoryRepository, Mockito.never()).save(Mockito.any());
     }
 
 }

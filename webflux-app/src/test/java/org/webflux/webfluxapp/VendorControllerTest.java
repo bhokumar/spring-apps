@@ -51,4 +51,20 @@ public class VendorControllerTest {
         Mono<Vendor> vendor = Mono.just(new Vendor("someId", "firstName", "lastName"));
         webTestClient.put().uri("/api/v1/vendors/newId").body(vendor, Vendor.class).exchange().expectStatus().isOk();
     }
+
+    @Test
+    public void patchWithChanges() {
+        BDDMockito.given(vendorRepository.findById(Mockito.anyString())).willReturn(Mono.just(new Vendor("007","firstName", "lastName")));
+        BDDMockito.given(vendorRepository.save(Mockito.any(Vendor.class))).willReturn(Mono.just(new Vendor("007", "firstName","lastName")));
+        webTestClient.patch().uri("/api/v1/vendors/007").body(Mono.just(new Vendor("007", "NewFirstName", "lastName")), Vendor.class).exchange().expectStatus().isOk();
+        Mockito.verify(vendorRepository).save(Mockito.any(Vendor.class));
+    }
+
+    @Test
+    public void patchWithNoChanges() {
+        BDDMockito.given(vendorRepository.findById(Mockito.anyString())).willReturn(Mono.just(new Vendor("007","firstName", "lastName")));
+        BDDMockito.given(vendorRepository.save(Mockito.any(Vendor.class))).willReturn(Mono.just(new Vendor("007", "firstName","lastName")));
+        webTestClient.patch().uri("/api/v1/vendors/007").body(Mono.just(new Vendor("007", "firstName", "lastName")), Vendor.class).exchange().expectStatus().isOk();
+        Mockito.verify(vendorRepository, Mockito.never()).save(Mockito.any(Vendor.class));
+    }
 }
