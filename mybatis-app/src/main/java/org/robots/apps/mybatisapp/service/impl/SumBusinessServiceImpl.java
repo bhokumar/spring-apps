@@ -1,4 +1,4 @@
-package org.robots.apps.mybatisapp.service;
+package org.robots.apps.mybatisapp.service.impl;
 
 import org.springframework.stereotype.Service;
 

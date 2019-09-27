@@ -3,9 +3,15 @@ package org.robots.apps.mybatisapp.service;
 import org.junit.Test;
 import org.robots.apps.mybatisapp.service.impl.SumBusinessServiceImpl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class SumBusinessServiceImplTest {
+class DataServiceStub implements DataService {
+    @Override
+    public int[] retrieveAllData() {
+        return new int[] {1,2,3};
+    }
+}
+public class DataServiceStubTest {
 
     private DataService dataService;
 
