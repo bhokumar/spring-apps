@@ -1,17 +1,15 @@
 package org.robots.apps.mybatisapp.service;
 
 import org.junit.Test;
-import org.robots.apps.mybatisapp.service.impl.SumBusinessServiceImpl;
+import org.robots.apps.mybatisapp.service.impl.SomeBusinessServiceImpl;
 
 import static org.junit.Assert.*;
 
 public class SumBusinessServiceImplTest {
 
-    private DataService dataService;
-
     @Test
     public void calculateSum() {
-        SumBusinessServiceImpl sumBusinessService = new SumBusinessServiceImpl();
+        SomeBusinessServiceImpl sumBusinessService = new SomeBusinessServiceImpl();
         long actualResult = sumBusinessService.getSum(new int[] {1,2,3});
 
         long expectedResult = 6;
@@ -21,7 +19,7 @@ public class SumBusinessServiceImplTest {
 
     @Test
     public void calculateSum_EmptyArray() {
-        SumBusinessServiceImpl  sumBusinessService = new SumBusinessServiceImpl();
+        SomeBusinessServiceImpl sumBusinessService = new SomeBusinessServiceImpl();
         long actualResult = sumBusinessService.getSum(new int[] {1,2,3});
 
         long expectedResult = 0;
